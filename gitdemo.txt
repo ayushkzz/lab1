@@ -1,6 +1,3 @@
-https://limewire.com/d/NhFQa#rMah8u9rvW
-----------------------------------------------------------------
-
 Experiment 1: Introduction to Git and Local Repository Management
 
 Steps:
@@ -270,6 +267,7 @@ The site folder will be created in the target file,open the index.html and explo
 Modification and Execution of Java Application in a Maven Project
 1.try to change the hello world code and put other code and execute it
 sample-app-->src-->main-->java-->com-->bnmit-->app.java-->open file and paste the Bank Application Code
+
 class BankAccount {
 private double balance;
 public BankAccount(double initialBalance) {
@@ -318,13 +316,21 @@ ii. Enter an item name (Ex: sample_job)
 iii. Select Freestyle project and Click Ok
 iv. Give Description (Example: Sample Free Style Job)
 v. Select Discard old Builds: Enter days to keep builds and Max of Build to Keep
-vi. In Build Step click on Add build step
-vii. Select Execute Windows Batch Command and type echo "Hi, Welcome to Jenkins."
-viii. Save and apply
-ix. Click on Build Now
-x. Click On the Console Output to Check the Output (The Printed output will be “Hi, Welcome to
-Jenkins.
-”)
+vi. In SCM -> Git -> Add Github repo URL -> set branch */main
+vii. Add windows batch command in build step:
+call build.bat
+dir
+
+build.bat:
+echo "Running Build..."
+echo "This is Jenkins Build Output" > output.txt
+Add one more txt file optionally.
+viii. Post Build Actions : Archive the artifacts
+** (for everything) | *.txt (for just txt file)
+
+ix. Save and apply
+x. Click on Build Now
+xi. Click On the Console Output to Check the Build, In status you will the txt archived files.
 
 
 Experiment 8: Jenkins Build Triggers
