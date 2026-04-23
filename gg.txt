@@ -1,0 +1,585 @@
+git config --global user.name
+git config --global user.email
+
+git config --local user.name "NewUserName"
+git config --local user.email "newemail@example.com"
+
+
+If Git asks for username/email, configure:
+git config --global user.name "Your Name"
+git config --global user.email "yourmail@example.com"
+
+
+
+********
+*demo-1*
+********
+
+
+mkdir git-practical-1
+cd git-practical-1
+git init
+git status
+echo Hello Git > file1.txt
+git status
+git add file1.txt
+git status
+git commit -m "Initial commit"
+git log --oneline
+echo Git is useful >> file1.txt
+git status
+git add file1.txt
+git commit -m "Updated file1.txt"
+git log --oneline
+
+
+
+
+********
+*demo-2*
+********
+
+
+
+
+mkdir git-practical-2
+cd git-practical-2
+git init
+echo Hello from Main Branch > file1.txt
+git add file1.txt
+git commit -m "Initial commit on main branch"
+git branch feature-1
+git checkout feature-1
+echo Hello from Feature Branch > file1.txt
+git add file1.txt
+git commit -m "Updated file in feature branch"
+git checkout main
+git merge feature-1
+git log --oneline --graph --all
+
+
+
+********
+*Conflict*
+********
+
+
+
+mkdir conflict-demo
+cd conflict-demo
+git init
+echo "line from main" > f1.txt
+git add f1.txt
+git commit -m "initial commit on main"
+git checkout -b conflict-branch
+echo "line from branch" > f1.txt
+git add f1.txt
+git commit -m "change in branch"
+git checkout main
+echo "line from main updated" > f1.txt
+git add f1.txt
+git commit -m "change in main"
+git merge conflict-branch
+check error(remove >>>> or <<< line)
+git add f1.txt
+git commit -m "merge conflict resolved"
+
+
+
+********
+*demo-3*
+********
+
+
+
+mkdir git-practical-3
+cd git-practical-3
+git init
+echo This is my GitHub practical > file1.txt
+git add file1.txt
+git commit -m "Initial commit for GitHub push"
+git remote add origin https://github.com/username/git-practical-3.git
+git remote -v
+git branch -M main
+git push -u origin main
+cd ..
+git clone https://github.com/username/git-practical-3.git
+cd git-practical-3
+git remote -v
+
+
+
+
+********
+*demo-5*
+********
+
+
+
+cd your-project-folder
+
+git init
+
+git add .
+
+git commit -m "Initial commit"
+
+git remote add origin https://github.com/username/repository.git
+
+git branch -M main
+git push -u origin main
+
+git tag -a v1.0 -m "Version 1.0 - First release"
+
+git tag
+
+git show v1.0
+
+git push origin v1.0
+
+git push origin --tags
+🔹Final Step (Manual on GitHub)
+Open your repository
+Click Releases
+Click Draft a new release
+Select tag v1.0
+Add title + description
+Click Publish Release
+
+
+
+********
+*demo-15*
+********
+
+
+
+docker --version
+docker info
+docker run hello-world
+docker images
+docker ps
+docker ps -a
+docker pull nginx
+docker run -d -p 8080:80 --name mynginx nginx
+docker ps
+docker logs mynginx
+docker stop mynginx
+docker start mynginx
+docker stop mynginx
+docker rm mynginx
+
+
+
+********
+*demo-16*
+********
+
+
+	app.py
+
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+class MyHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/html")
+        self.end_headers()
+        self.wfile.write(b"<h1>Hello from Docker Container!</h1>")
+
+server = HTTPServer(("0.0.0.0", 5000), MyHandler)
+print("Server running on port 5000...")
+server.serve_forever()
+
+
+	Dockerfile
+
+FROM python:3.10-slim
+
+WORKDIR /app
+
+COPY app.py .
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
+
+	cmd
+
+mkdir dockerfile-demo
+cd dockerfile-demo
+docker build -t dockerfile-demo-app .
+docker images
+docker run -d -p 5000:5000 --name dockerfile-demo-container dockerfile-demo-app
+docker ps
+docker logs dockerfile-demo-container
+docker stop dockerfile-demo-container
+docker rm dockerfile-demo-container
+
+
+
+
+********
+*demo-17*
+********
+
+
+
+docker --version
+docker pull nginx
+docker run -d -p 8080:80 nginx
+docker ps
+docker volume create my-volume
+docker volume ls
+docker run -d -p 8081:80 -v my-volume:/usr/share/nginx/html nginx
+docker ps
+docker inspect <container_id>
+docker exec -it <container_id> sh
+
+echo "Hello Persistent Storage!" > /usr/share/nginx/html/index.html
+exit
+
+docker stop <container_id>
+docker rm <container_id>
+docker run -d -p 8081:80 -v my-volume:/usr/share/nginx/html nginx
+
+
+
+********
+*demo-18*
+********
+
+
+mkdir my-docker-app
+cd my-docker-app
+
+add app.py with http server and dockerfile then
+
+docker --version
+docker login
+docker build -t my-docker-app .
+docker images
+docker tag my-docker-app username/my-docker-app:1.0
+docker push username/my-docker-app:1.0
+docker rmi username/my-docker-app:1.0
+docker pull username/my-docker-app:1.0
+docker run -d -p 8080:80 username/my-docker-app:1.0
+docker ps
+docker stop <container_id>
+docker rm <container_id>
+
+
+
+********
+*demo-11*
+********
+
+
+
+
+mkdir pro-11
+cd pro-11
+in cmd: mvn archetype:generate, groupid:com.example, artifactid: junt-pro, keep rest default
+
+in calculator.java:
+public class Calculator {
+public int add(int a, int b) {
+return a + b;
+}
+public int divide(int a, int b) {
+if(b == 0) {
+throw new IllegalArgumentException("Cannot divide by zero");
+}
+return a / b;
+}
+}
+
+in calculatortest.java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+class CalculatorTest {
+Calculator calculator = new Calculator();
+@Test
+void testAddition() {
+assertEquals(10, calculator.add(5,5));
+}
+@Test
+void testDivision() {
+assertEquals(2, calculator.divide(10,5));
+}
+@Test
+void testDivideByZero() {
+Exception exception = assertThrows(
+IllegalArgumentException.class,
+
+() -> calculator.divide(10,0)
+);
+assertEquals("Cannot divide by zero", exception.getMessage());
+}
+}
+
+in cmd mvn clean test
+
+create a Jenkinsfile
+pipeline {
+agent any
+tools {
+jdk 'JDK17'
+maven 'Maven3'
+}
+stages {
+stage('Build') {
+steps {
+bat 'mvn clean compile'
+}
+
+}
+stage('Test') {
+steps {
+bat 'mvn test'
+}
+}
+}
+post {
+always {
+junit '**/target/surefire-reports/*.xml'
+}
+}
+}
+
+create repo  in github
+git init, git add . , git commit -m "init"
+
+
+in Jenkins, new item, pipeline, git, in script add Jenkinsfile, sava and build now. change in cal script from a+b to a+b+1 of return
+
+
+
+
+
+********
+*demo-14*
+********
+
+
+
+
+(2)
+
+cd desktop
+mkdir git1
+cd git1
+echo "first" > f1.txt
+git add .
+git commit -m "A"
+git branch mybranch 
+git checkout mybranch
+echo "branch change" >> f1.txt
+git add .
+git commit -m "B"
+git checkout main
+echo "main change" > f1.txt
+git add .
+git commit -m "C"
+git merge mybranch
+git mergetool 
+git add .
+git commit -m "resolved"
+git log
+
+
+(3)
+
+--create repo
+git init
+cd desktop
+git clone https://github.com/Raj-24680/pull2.git
+cd pull2
+nano c1.java
+git add .
+git commit -m "cd"
+javac c1.java
+java c1
+git push origin main
+--make changes in readme in GitHub
+git pull origin main
+git log
+
+
+(4)
+
+--create repo
+git init
+cd desktop
+git clone https://github.com/Raj-24680/pull3.git
+cd pull3
+echo "dc">e2.txt
+git add .
+git commit -m "cd"
+git push origin main
+--make changes in radme in GitHub
+git pull origin main
+git log
+git branch fre1
+git checkout fre1
+echo "dccdw">>e2.txt
+git add .
+git commit -m "cd"
+echo "dccddcw">e3.txt
+git add .
+git commit -m "cd"
+git push origin fre1
+--gotto repo click compare pull request
+git checkout main
+git pull origin main
+git push origin --delete fre1
+
+git branch -d feature-1 
+
+
+(5)
+
+--create repo
+git init
+cd desktop
+git clone https://github.com/Raj-24680/pull3.git
+cd pull3
+git pull
+git tag v1.0
+git tag
+git tag -a v2.0 -m "tag created"
+git show v1.0              what is howing output doubt?
+git tag v3.0
+git push --tags
+git push origin -d v1.0
+git tag -d v1.0
+
+demo-19:
+pipeline {
+    agent any
+    
+    stages {
+        stage('Clone') {
+            steps {
+                git url: 'https://github.com/ayushkzz/sample-app.git', branch: 'main'
+            }
+        }
+        stage('Build') {
+            steps {
+                bat 'docker build -t my-app .'
+            }
+        }
+        stage('Run') {
+            steps {
+                bat 'docker run -d -p 5020:5020 my-app'
+            }
+        }
+    }
+}
+
+demo-20:
+create maven project
+change App.java
+package com.devops;
+
+import com.sun.net.httpserver.HttpServer;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+
+public class App {
+    public String greet() {
+        return "CI/CD Pipeline Successful";
+    }
+    // public static void main(String[] args) {
+    //     App app = new App();
+    //     System.out.println(app.greet());
+    // }
+    public static void main(String[] args) throws Exception {
+        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+
+        // ✅ Frontend (HTML page)
+        server.createContext("/", exchange -> {
+            String html = "<html><body><h1>CI/CD Pipeline Demo</h1></body></html>";
+
+            exchange.getResponseHeaders().add("Content-Type", "text/html");
+            exchange.sendResponseHeaders(200, html.length());
+
+            OutputStream os = exchange.getResponseBody();
+            os.write(html.getBytes());
+            os.close();
+        });
+
+        server.start();
+    }
+}
+
+AppTest.java
+package com.devops;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+public class AppTest {
+
+    App app = new App();
+
+    @Test
+    public void testGreet() {
+        assertEquals("CI/CD Pipeline Successful", app.greet());
+    }
+}
+Dockerfile
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+
+COPY target/classes /app
+
+EXPOSE 8090
+
+CMD ["java", "com.devops.App"]
+
+Jenkinsfile in github:
+pipeline {
+    agent any
+
+    tools {
+        jdk 'JDK22'
+        maven 'Maven3'
+    }
+
+    stages {
+
+        stage('Build & Test') {
+            steps {
+                bat 'mvn clean test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                bat 'mvn package'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t demo-app .'
+            }
+        }
+
+        stage('Stop Old Container') {
+            steps {
+                bat 'docker stop demo-container || exit 0'
+                bat 'docker rm demo-container || exit 0'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                bat 'docker run -d -p 8090:8080 --name demo-container demo-app'
+            }
+        }
+    }
+}
